@@ -3,6 +3,20 @@ import socketio
 import time
 import sys
 
+# Socket.io helpers
+sio = socketio.Client()
+
+sio.connect('http://192.168.0.15:5000/client')
+
+# Socket.io functions
+@sio.on('connect')
+def on_connect():
+	print('Im connected to the server!')
+
+@sio.on('disconnect')
+def on_disconnect():
+	print('Im disconnected from the server!')
+
 # Implementation functions
 
 def get_mouse_coordinates():
@@ -35,20 +49,6 @@ def get_screen_dimensions():
 	return width, height, inches
 
 if __name__ == '__main__':
-	sio = socketio.Client()
-
-	sio.connect('http://192.168.0.15:5000')
-
-	# Socket.io functions
-	@sio.on('connect')
-	def on_connect():
-		print('Im connected to the server!')
-
-	@sio.on('disconnect')
-	def on_disconnect():
-		print('Im disconnected from the server!')
-
-
 	click_state = get_mouse_state()
 
 	screenWidth, screenHeight, screenInches = get_screen_dimensions()
