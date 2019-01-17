@@ -25,7 +25,7 @@ def get_mouse_coordinates():
 	
 	string = subprocess.check_output(command).decode()
 
-	regex = r"x:([1-9]+)\sy:([1-9]+).*"
+	regex = r"x:([0-9]+)\sy:([0-9]+).*"
 
 	matches = re.finditer(regex, string, re.MULTILINE)
 
