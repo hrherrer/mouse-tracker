@@ -2,6 +2,7 @@ import subprocess
 import socketio
 import time
 import sys
+import re
 
 # Socket.io helpers
 sio = socketio.Client()
@@ -21,7 +22,20 @@ def on_disconnect():
 
 def get_mouse_coordinates():
 	command = "xdotool getmouselocation".split(' ')
-	return subprocess.check_output(command)
+	string = subprocess.check_output(command).decode()
+
+	regex = r"x:([1-9]+)\sy:([1-9]+).*"
+
+	matches = re.finditer(refex, string, re.MULTILINE)
+
+	try:
+		match = next(matches)
+	except StopIteration:
+		return {'x': 0, 'y': 0}
+
+	return {'x': match.group(1), 'y': match.group(2)}
+	
+
 
 def get_mouse_state():
 	command = "xinput --query-state 11".split(' ')
