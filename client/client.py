@@ -22,11 +22,12 @@ def on_disconnect():
 
 def get_mouse_coordinates():
 	command = "xdotool getmouselocation".split(' ')
+	
 	string = subprocess.check_output(command).decode()
 
 	regex = r"x:([1-9]+)\sy:([1-9]+).*"
 
-	matches = re.finditer(refex, string, re.MULTILINE)
+	matches = re.finditer(regex, string, re.MULTILINE)
 
 	try:
 		match = next(matches)
