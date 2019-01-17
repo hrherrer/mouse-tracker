@@ -66,6 +66,8 @@ def get_screen_dimensions():
 if __name__ == '__main__':
 	click_state = get_mouse_state()
 
+	coordinates_state = get_mouse_coordinates()
+
 	screenWidth, screenHeight, screenInches = get_screen_dimensions()
 
 	while True:
@@ -74,7 +76,9 @@ if __name__ == '__main__':
 
 		clicked, click_state = was_clicked(click_state)
 
-		sio.emit('coordinates', {'data': coordinates, 'screen': {'width': screenWidth, 'height': screenHeight, 'inches': screenInches}}, namespace='/client')
+		if coordinates != coordinates_state:
+			sio.emit('coordinates', {'data': coordinates, 'screen': {'width': screenWidth, 'height': screenHeight, 'inches': screenInches}}, namespace='/client')
+			coordinates_state = coordinates
 
 		if clicked:
 			sio.emit('new_click', namespace='/client')

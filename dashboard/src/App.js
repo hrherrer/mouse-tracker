@@ -5,6 +5,16 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  state = {
+    mouseX: 0,
+    mouseY: 0,
+    windowW: 0,
+    windowH: 0,
+    windowSize: 0,
+    numberOfClicks: 0,
+    isTracking: false
+  }
+
   componentDidMount() {
     this.socket = io('http://192.168.0.15:5000/web')
 
@@ -13,7 +23,19 @@ class App extends Component {
     });
 
     this.socket.on('coordinates', (data) => {
-      console.log(data)
+      this.setState({
+        mouseX: data.data.x,
+        mouseY: data.data.y,
+        windowW: data.screen.width,
+        windowH: data.screen.height,
+        windowSize: data.screen.inches
+      })
+    })
+
+    this.socket.on('new_click', (data) => {
+      this.setState((state) => ({
+        numberOfClicks: state.numberOfClicks + 1
+      }))
     })
   }
 
