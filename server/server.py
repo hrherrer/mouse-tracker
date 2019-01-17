@@ -6,9 +6,9 @@ app = Flask(__name__)
 app.wsgi_app = socketio.Middleware(sio, app.wsgi_app)
 
 @sio.on('coordinates', namespace='/client')
-def my_custom_event(sid, data):
+def coordinates(sid, data):
 		print(sid)
 		print(data)
 
 if __name__ == '__main__':
-	app.run()
+	app.run(host='0.0.0.0')

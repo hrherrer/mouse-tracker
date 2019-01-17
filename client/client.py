@@ -33,8 +33,8 @@ def get_mouse_state():
 def was_clicked(old_click_state):
 	new_click_state = get_mouse_state()
 
-	a = set(new_click_state.split('\n'))
-	b = set(old_click_state.split('\n'))
+	a = set(new_click_state.decode().split('\n'))
+	b = set(old_click_state.decode().split('\n'))
 
 	diff = ' '.join(b.difference(a))
 
