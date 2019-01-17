@@ -34,7 +34,7 @@ def get_mouse_coordinates():
 	except StopIteration:
 		return {'x': 0, 'y': 0}
 
-	return {'x': match.group(1), 'y': match.group(2)}
+	return {'x': int(match.group(1)), 'y': int(match.group(2))}
 	
 
 
