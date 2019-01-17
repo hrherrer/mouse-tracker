@@ -6,14 +6,14 @@ import sys
 # Socket.io helpers
 sio = socketio.Client()
 
-sio.connect('http://192.168.0.15:5000/client')
+sio.connect('http://192.168.0.15:5000', namespaces=['/client'])
 
 # Socket.io functions
-@sio.on('connect')
+@sio.on('connect', namespace='/client')
 def on_connect():
 	print('Im connected to the server!')
 
-@sio.on('disconnect')
+@sio.on('disconnect', namespace='/client')
 def on_disconnect():
 	print('Im disconnected from the server!')
 
@@ -59,10 +59,10 @@ if __name__ == '__main__':
 
 		clicked, click_state = was_clicked(click_state)
 
-		sio.emit('coordinates', {'data': coordinates, 'screen': {'width': screenWidth, 'height': screenHeight, 'inches': screenInches}})
+		sio.emit('coordinates', {'data': coordinates, 'screen': {'width': screenWidth, 'height': screenHeight, 'inches': screenInches}}, namespace='/client')
 
 		if clicked:
-			sio.emit('new_click')
+			sio.emit('new_click', namespace='/client')
 
 
 

@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
+import io from 'socket.io-client'
+
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  componentDidMount() {
+    this.socket = io('http://192.168.0.15:5000/web')
+
+    this.socket.on('connect', () => {
+      console.log('Connected to server')
+    });
+
+    this.socket.on('coordinates', (data) => {
+      console.log(data)
+    })
+  }
+
   render() {
     return (
       <div className="App">
