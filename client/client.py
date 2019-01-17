@@ -1,15 +1,7 @@
 import subprocess
 import socketio
 import time
-
-# Socket.io functions
-@sio.on('connect')
-def on_connect():
-    print('I'm connected to the server!')
-
-@sio.on('disconnect')
-def on_disconnect():
-    print('I'm disconnected from the server!')
+import sys
 
 # Implementation functions
 
@@ -36,14 +28,30 @@ def was_clicked(old_click_state):
 
 	return result, new_click_state
 	
-
+def get_screen_dimensions():
+	width = int(sys.argv[1]) or 0
+	height= int(sys.argv[2]) or 0
+	inches = float(sys.argv[3]) or 0.0
+	return width, height, inches
 
 if __name__ == '__main__':
 	sio = socketio.Client()
 
 	sio.connect('http://192.168.0.15:5000')
 
+	# Socket.io functions
+	@sio.on('connect')
+	def on_connect():
+		print('Im connected to the server!')
+
+	@sio.on('disconnect')
+	def on_disconnect():
+		print('Im disconnected from the server!')
+
+
 	click_state = get_mouse_state()
+
+	screenWidth, screenHeight, screenInches = get_screen_dimensions()
 
 	while True:
 		time.sleep(0.01)
@@ -51,7 +59,7 @@ if __name__ == '__main__':
 
 		clicked, click_state = was_clicked(click_state)
 
-		sio.emit('coordinates', {'data': coordinates})
+		sio.emit('coordinates', {'data': coordinates, 'screen': {'width': screenWidth, 'height': screenHeight, 'inches': screenInches}})
 
 		if clicked:
 			sio.emit('new_click')
