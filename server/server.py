@@ -16,7 +16,7 @@ def coordinates(sid, data):
 
 	
 @sio.on('new_click', namespace='/client')
-def new_click():
+def new_click(sid):
 		sio.emit('new_click', namespace='/web')
 
 if __name__ == '__main__':
